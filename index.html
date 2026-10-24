@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>روزشمار آزادی و پناهگاه روانی 🌸🩵</title>
+    
+    <!-- PWA Settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="آزادی">
+    <meta name="theme-color" content="#fdf2f8">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f472b6'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='50'>🌸</text></svg>">
+
+    <style>
+        :root {
+            --bg-start: #fdf2f8;
+            --bg-end: #e0f2fe;
+            --pink-dark: #db2777;
+            --pink-main: #f472b6;
+            --pink-soft: #fbcfe8;
+            --pink-light: #fff1f2;
+            --blue-dark: #0284c7;
+            --blue-main: #38bdf8;
+            --blue-soft: #bae6fd;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(244, 114, 182, 0.3);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-start) 0%, #f0f9ff 50%, var(--bg-end) 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 110px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 16px 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            border: 2px solid var(--pink-soft);
+            box-shadow: 0 10px 25px rgba(244, 114, 182, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 1.35rem;
+            color: var(--pink-dark);
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 22px;
+            padding: 18px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--pink-dark);
+        }
+
+        /* Countdown Grid */
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1.5px solid var(--blue-soft);
+            border-radius: 16px;
+            padding: 10px 4px;
+            box-shadow: 0 4px 10px rgba(56, 189, 248, 0.08);
+        }
+
+        .time-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--blue-dark);
+        }
+
+        .time-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .progress-bar-bg {
+            background: rgba(244, 114, 182, 0.15);
+            height: 14px;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 2px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink-main), var(--blue-main));
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* Quote Banner */
+        .quote-box {
+            background: linear-gradient(135deg, rgba(251, 207, 232, 0.4), rgba(186, 230, 253, 0.4));
+            border-right: 4px solid var(--pink-dark);
+            padding: 12px;
+            border-radius: 14px;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .quote-btn {
+            background: none;
+            border: none;
+            color: var(--blue-dark);
+            font-size: 0.78rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            display: block;
+            margin-left: auto;
+        }
+
+        /* Timeline Items */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 14px;
+            border-right: 4px solid var(--blue-main);
+        }
+
+        .timeline-item.active {
+            border-right-color: var(--pink-dark);
+            background: rgba(251, 207, 232, 0.3);
+        }
+
+        .timeline-badge {
+            font-size: 1.2rem;
+        }
+
+        .timeline-content h4 {
+            font-size: 0.88rem;
+            color: var(--pink-dark);
+        }
+
+        .timeline-content p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Interactive Tracker */
+        .mood-selector {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            gap: 6px;
+        }
+
+        .mood-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1.5px solid var(--pink-soft);
+            padding: 8px 4px;
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .mood-btn.selected {
+            border-color: var(--pink-dark);
+            background: var(--pink-soft);
+            font-weight: bold;
+        }
+
+        .streak-counter {
+            font-size: 0.85rem;
+            color: var(--blue-dark);
+            text-align: center;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        /* List Items & Checklists */
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .list-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            border: 1px solid rgba(244, 114, 182, 0.15);
+        }
+
+        .list-row.done {
+            opacity: 0.6;
+            text-decoration: line-through;
+            background: rgba(241, 245, 249, 0.8);
+        }
+
+        .check-btn {
+            background: var(--pink-light);
+            border: 1px solid var(--pink-main);
+            color: var(--pink-dark);
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .add-input-group {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .add-input-group input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1.5px solid var(--blue-soft);
+            border-radius: 10px;
+            padding: 8px 12px;
+            color: var(--text-main);
+            font-size: 0.82rem;
+            outline: none;
+        }
+
+        .add-btn {
+            background: var(--blue-main);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Rage Burner */
+        textarea {
+            width: 100%;
+            height: 75px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1.5px solid var(--pink-soft);
+            border-radius: 14px;
+            padding: 10px;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            resize: none;
+            outline: none;
+        }
+
+        .burn-btn {
+            width: 100%;
+            margin-top: 8px;
+            background: linear-gradient(90deg, var(--pink-main), var(--pink-dark));
+            color: white;
+            border: none;
+            padding: 11px;
+            border-radius: 14px;
+            font-weight: bold;
+            font-size: 0.88rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3);
+        }
+
+        /* Shield Rules */
+        .shield-rule {
+            background: rgba(186, 230, 253, 0.25);
+            border-right: 3.5px solid var(--blue-dark);
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            margin-bottom: 8px;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+
+        /* Floating Buttons */
+        .floating-bar {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+            width: calc(100% - 32px);
+            max-width: 500px;
+        }
+
+        .panic-btn {
+            flex: 2;
+            background: linear-gradient(90deg, var(--pink-dark), var(--blue-dark));
+            color: white;
+            padding: 12px;
+            border-radius: 30px;
+            border: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.3);
+            cursor: pointer;
+        }
+
+        .pwa-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid var(--pink-main);
+            color: var(--pink-dark);
+            padding: 12px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border: 2px solid var(--pink-main);
+            border-radius: 24px;
+            padding: 22px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .modal-title {
+            color: var(--pink-dark);
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .modal-text {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .close-modal-btn {
+            background: var(--blue-dark);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        /* Toast Message */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: #ffffff;
+            border: 2px solid var(--pink-main);
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            font-size: 0.82rem;
+            font-weight: bold;
+            color: var(--pink-dark);
+            transition: transform 0.4s ease;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast" class="toast">پیام سیستم</div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🌸 روزشمار آزادی و پناهگاه روانی 🩵</h1>
+            <p>هدف: خروج پرقدرت در ۱ تیر ۱۴۰۶ (پس از واریز حقوق خرداد)</p>
+        </div>
+
+        <!-- Countdown Card -->
+        <div class="card">
+            <div class="card-title">⏳ زمان باقی‌مانده تا اعلام خداحافظی</div>
+            <div class="countdown-grid">
+                <div class="time-box">
+                    <div class="time-value" id="days">-</div>
+                    <div class="time-label">روز</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="hours">-</div>
+                    <div class="time-label">ساعت</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="minutes">-</div>
+                    <div class="time-label">دقیقه</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="seconds">-</div>
+                    <div class="time-label">ثانیه</div>
+                </div>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-fill" style="width: 0%;"></div>
+            </div>
+            <div class="progress-text" id="progress-text">در حال محاسبه مسیر...</div>
+        </div>
+
+        <!-- Quotes Card -->
+        <div class="card">
+            <div class="card-title">💡 دوز انگیزه امروز</div>
+            <div class="quote-box" id="quote-display">
+                «این روزها ابدی نیستند. تو برای هدفی بزرگتر اینجا هستی و هر روز یک قدم به خروج سودآور نزدیک‌تر می‌شوی.»
+            </div>
+            <button class="quote-btn" onclick="nextQuote()">🔄 جمله بعدی</button>
+        </div>
+
+        <!-- Daily Check-in -->
+        <div class="card">
+            <div class="card-title">🗓️ ثبت دوام امروز (Check-in)</div>
+            <p style="font-size: 0.78rem; color: var(--text-muted);">حس امروزت چطور بود؟ یک روز دیگر خط خورد!</p>
+            <div class="mood-selector">
+                <button class="mood-btn" onclick="logMood('😐', 'بی‌تفاوت تاکتیکی')">😐<span>بی‌تفاوت</span></button>
+                <button class="mood-btn" onclick="logMood('😤', 'کلافه')">😤<span>کلافه</span></button>
+                <button class="mood-btn" onclick="logMood('😮‍💨', 'خسته')">😮‍💨<span>خسته</span></button>
+                <button class="mood-btn" onclick="logMood('🥳', 'پرقدرت')">🥳<span>پرقدرت</span></button>
+            </div>
+            <div class="streak-counter" id="streak-display">🔥 روزهای متوالی دوام‌آورده: ۰ روز</div>
+        </div>
+
+        <!-- Finance & Rewards -->
+        <div class="card">
+            <div class="card-title">💸 حساب‌گر پیشرفت مالی و پاداش‌ها</div>
+            <div class="item-list" id="finance-list">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+
+        <!-- Book Vault & Debt Tracker -->
+        <div class="card">
+            <div class="card-title">📚 کمد کتاب‌های رؤیایی & اقساط</div>
+            <div class="item-list" id="book-list">
+                <!-- Injected by JS -->
+            </div>
+            <div class="add-input-group">
+                <input type="text" id="new-book-input" placeholder="اسم مجموعه یا قسط کتاب...">
+                <button class="add-btn" onclick="addBookItem()">+ افزودن</button>
+            </div>
+        </div>
+
+        <!-- Car Upgrade Planner -->
+        <div class="card">
+            <div class="card-title">🚗 برنامه‌ریز ارتقای ماشین (هدف فروردین)</div>
+            <div class="item-list" id="car-list">
+                <!-- Injected by JS -->
+            </div>
+            <div class="add-input-group">
+                <input type="text" id="new-car-input" placeholder="افزودن آیتم جدید ماشین...">
+                <button class="add-btn" onclick="addCarItem()">+ افزودن</button>
+            </div>
+        </div>
+
+        <!-- Timeline Road Map -->
+        <div class="card">
+            <div class="card-title">🗺️ نقشه راه ایستگاه‌های ۸ ماهه</div>
+            <div class="timeline">
+                <div class="timeline-item active">
+                    <div class="timeline-badge">🍁</div>
+                    <div class="timeline-content">
+                        <h4>آبان: تسویه طلا ✨</h4>
+                        <p>بدهی طلا تمام شد + خرید گوشواره بخیه‌ای قشنگت!</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">🎂</div>
+                    <div class="timeline-content">
+                        <h4>آذر: مناسبت‌های طلایی 💍</h4>
+                        <p>تولد پارتنر (۸ آذر) + سالگرد رابطه (۲۳ آذر).</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">📚</div>
+                    <div class="timeline-content">
+                        <h4>دی: مجموعه کتاب‌ها 📖</h4>
+                        <p>شروع خرید مجموعه کتاب‌های جدید و ثبت اقساط.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">💖</div>
+                    <div class="timeline-content">
+                        <h4>بهمن: ولنتاین + قسط کتاب 🎁</h4>
+                        <p>پرداخت قسط کتاب‌ها و جشن ولنتاین.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">🛒</div>
+                    <div class="timeline-content">
+                        <h4>اسفند: عیدی و خریدهای عید 🛍️</h4>
+                        <p>دریافت عیدی، قسط کتاب و خرید خرده‌ریزهای دلخواه.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">🚗</div>
+                    <div class="timeline-content">
+                        <h4>فروردین: ارتقا و زیبایی ماشین 🧼</h4>
+                        <p>کاپوت، صافکاری، رفع خط/خش، سرامیک و زیرپایی با عیدی.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">🎈</div>
+                    <div class="timeline-content">
+                        <h4>اردیبهشت: تولد ۲۵ اردیبهشت 👑</h4>
+                        <p>کادوی ۵ میلیونی شرکت + هدیه کتاب جدید به خودت.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">🏆</div>
+                    <div class="timeline-content">
+                        <h4>خرداد/تیر: حقوق، سنوات و خداحافظی 💸</h4>
+                        <p>واریز حقوق خرداد + ۱ تیر اعلام استعفا و تسویه!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mindset Shields -->
+        <div class="card">
+            <div class="card-title">🛡️ سپرهای بقا و قوانین روانی</div>
+            <div class="shield-rule">🛡️ **سرمایه‌گذاری عاطفی صفر:** شرکت فقط دستگاه خودپرداز است؛ هیچ حرص یا دلسوزی اضافه‌ای برای کار نداشته باش.</div>
+            <div class="shield-rule">🧱 **تکنیک دیوار سنگی:** در برابر سوءاستفاده‌ها، خونسرد، بی‌تفاوت و کاملاً حرفه‌ای عمل کن.</div>
+            <div class="shield-rule">📝 **ذخیره انرژی برای خلق:** تمام انرژی روحی‌ات را برای نوشتن رمان‌ها و زندگی شخصی‌ات حفظ کن.</div>
+            <div class="shield-rule">🏆 **تمرکز روی تیرماه:** اول واریز کامل حقوق خرداد، بعد خداحافظی شیرین.</div>
+        </div>
+
+        <!-- Rage Burner -->
+        <div class="card">
+            <div class="card-title">🔥 مخزن انهدام خشم روزانه</div>
+            <textarea id="rage-input" placeholder="عصبانیت امروزت چیه؟ بنویس و متلاشی‌اش کن..."></textarea>
+            <button class="burn-btn" onclick="burnRage()">💥 سوزاندن و پاک‌سازی خشم</button>
+        </div>
+    </div>
+
+    <!-- Floating Buttons -->
+    <div class="floating-bar">
+        <button class="panic-btn" onclick="openPanicModal()">🚨 اورژانس خشم</button>
+        <button class="pwa-btn" onclick="openPwaModal()">📱 نصب اپ</button>
+    </div>
+
+    <!-- Panic Modal -->
+    <div class="modal-overlay" id="panic-modal">
+        <div class="modal-content">
+            <div class="modal-title">🧘‍♀️ نفس عميق بکش؛ تو کنترل را داری</div>
+            <div class="modal-text">
+                «این حرص خوردن دقیقاً همان چیزی است که نباید انرژی‌ات را پایش بسوزانی. شرکت فقط یک دستگاه خودپرداز است. پاسخشان را با بی‌تفاوتی کاملاً سرد بده. حقوق و سنوات خرداد ارزش این خونسردی را دارد.»
+            </div>
+            <button class="close-modal-btn" onclick="closePanicModal()">متوجه شدم، آرومم ✨</button>
+        </div>
+    </div>
+
+    <!-- PWA Install Modal -->
+    <div class="modal-overlay" id="pwa-modal">
+        <div class="modal-content">
+            <div class="modal-title">📱 راهنمای نصب روی گوشی</div>
+            <div class="modal-text">
+                <strong>آیفون (iOS):</strong><br>
+                ۱. دکمه Share (مربع با فلش رو به بالا) را در سفاری بزنید.<br>
+                ۲. گزینه <strong>Add to Home Screen</strong> را انتخاب کنید.<br><br>
+                <strong>اندروید (Android):</strong><br>
+                ۱. منوی سه نقطه کروم را بزنید.<br>
+                ۲. گزینه <strong>Add to Home screen</strong> یا Install App را بزنید.
+            </div>
+            <button class="close-modal-btn" onclick="closePwaModal()">فهمیدم 👌</button>
+        </div>
+    </div>
+
+    <script>
+        // Target: 2027-06-22 (1 Tir 1406) | Start: 2026-10-24 (2 Aban 1405)
+        const targetDate = new Date('2027-06-22T00:00:00').getTime();
+        const startDate = new Date('2026-10-24T00:00:00').getTime();
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('days').innerText = "0";
+                document.getElementById('hours').innerText = "0";
+                document.getElementById('minutes').innerText = "0";
+                document.getElementById('seconds').innerText = "0";
+                document.getElementById('progress-text').innerText = "🎉 حقوق واریز شد؛ وقت خداحافظی است!";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('minutes').innerText = minutes;
+            document.getElementById('seconds').innerText = seconds;
+
+            const totalDuration = targetDate - startDate;
+            const elapsed = now - startDate;
+            const progressPercent = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100)).toFixed(1);
+
+            document.getElementById('progress-fill').style.width = progressPercent + '%';
+            document.getElementById('progress-text').innerText = progressPercent + '% از مسیر آزادی طی شده است ✨';
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Quotes
+        const quotes = [
+            "«این روزها ابدی نیستند. تو برای هدفی بزرگتر اینجا هستی و هر روز یک قدم به خروج سودآور نزدیک‌تر می‌شوی.»",
+            "«سرمایه‌گذاری عاطفی در این محیط صفر! تمام انرژی‌ات را برای پروژه‌ها، کتاب‌ها و زندگی شخصی‌ات نگه دار.»",
+            "«حرف‌ها و رفتار دیگران را به دل نگیر؛ تو فقط یک مسافر مدت‌داری که داری منابعت را جمع می‌کنی.»",
+            "«هر روزی که پایان می‌یابد، یک روز کمتر از سوءاستفاده‌های آنهاست. ۱ تیر روز خداحافظی کامل است.»",
+            "«طاقت بیار! اهدافت (کتاب‌ها، کاپوت و سرامیک ماشین، کادوها) منتظرت هستند.»",
+            "«بهترین انتقام، موفقیت و خروج با دستِ پر بعد از دریافت آخرین حقوق است.»"
+        ];
+
+        let quoteIndex = 0;
+        function nextQuote() {
+            quoteIndex = (quoteIndex + 1) % quotes.length;
+            document.getElementById('quote-display').innerText = quotes[quoteIndex];
+        }
+
+        // Mood & Streak
+        let streak = parseInt(localStorage.getItem('user_streak') || '0');
+        document.getElementById('streak-display').innerText = `🔥 روزهای متوالی دوام‌آورده: ${streak} روز`;
+
+        function logMood(emoji, label) {
+            streak++;
+            localStorage.setItem('user_streak', streak);
+            document.getElementById('streak-display').innerText = `🔥 روزهای متوالی دوام‌آورده: ${streak} روز`;
+            showToast(`حس امروز (${emoji} ${label}) ثبت شد. یک روز دیگر خط خورد! 💪`);
+        }
+
+        // Lists Management
+        let defaultFinance = [
+            { id: 1, text: "🍁 آبان: تسویه بدهی طلا + خرید گوشواره بخیه‌ای ✨", done: true },
+            { id: 2, text: "💍 آذر: بودجه تولد پارتنر (۸ آذر) + سالگرد (۲۳ آذر)", done: false },
+            { id: 3, text: "🛍️ اسفند: عیدی و خریدهای عید", done: false },
+            { id: 4, text: "🎈 ۲۵ اردیبهشت: واریز کادوی ۵ میلیونی شرکت", done: false },
+            { id: 5, text: "🏆 خرداد/تیر: واریز حقوق خرداد + تسویه‌حساب و استعفا", done: false }
+        ];
+
+        let defaultBooks = [
+            { id: 1, text: "📚 دی: خرید مجموعه کتاب‌های جدید", done: false },
+            { id: 2, text: "💳 بهمن: پرداخت قسط اول کتاب‌ها", done: false },
+            { id: 3, text: "💳 اسفند: پرداخت قسط دوم کتاب‌ها", done: false },
+            { id: 4, text: "💳 فروردین: پرداخت آخرین قسط کتاب‌ها", done: false },
+            { id: 5, text: "🎁 ۲۵ اردیبهشت: هدیه کتاب جدید به خودم", done: false }
+        ];
+
+        let defaultCar = [
+            { id: 1, text: "🚘 فروردین: خرید کاپوت جدید", done: false },
+            { id: 2, text: "🛠️ فروردین: صافکاری و رفع فرورفتگی‌ها", done: false },
+            { id: 3, text: "✨ فروردین: لکه‌گیری و از بین بردن خط و خش‌ها", done: false },
+            { id: 4, text: "🎨 فروردین: رنگ یا سرامیک بدنه", done: false },
+            { id: 5, text: "👣 فروردین: تعویض زیرپایی‌های داخل کابین", done: false }
+        ];
+
+        let financeData = JSON.parse(localStorage.getItem('fin_items')) || defaultFinance;
+        let bookData = JSON.parse(localStorage.getItem('book_items')) || defaultBooks;
+        let carData = JSON.parse(localStorage.getItem('car_items')) || defaultCar;
+
+        function renderLists() {
+            renderGeneric('finance-list', financeData, 'fin_items');
+            renderGeneric('book-list', bookData, 'book_items');
+            renderGeneric('car-list', carData, 'car_items');
+        }
+
+        function renderGeneric(containerId, dataArray, storageKey) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            dataArray.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = `list-row ${item.done ? 'done' : ''}`;
+                row.innerHTML = `
+                    <span>${item.text}</span>
+                    <button class="check-btn" onclick="toggleItem('${storageKey}', ${index})">${item.done ? '✓ انجام شد' : 'علامت زدن'}</button>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function toggleItem(storageKey, index) {
+            if (storageKey === 'fin_items') financeData[index].done = !financeData[index].done;
+            if (storageKey === 'book_items') bookData[index].done = !bookData[index].done;
+            if (storageKey === 'car_items') carData[index].done = !carData[index].done;
+            
+            localStorage.setItem('fin_items', JSON.stringify(financeData));
+            localStorage.setItem('book_items', JSON.stringify(bookData));
+            localStorage.setItem('car_items', JSON.stringify(carData));
+            renderLists();
+        }
+
+        function addBookItem() {
+            const input = document.getElementById('new-book-input');
+            if (!input.value.trim()) return;
+            bookData.push({ id: Date.now(), text: "📖 " + input.value.trim(), done: false });
+            localStorage.setItem('book_items', JSON.stringify(bookData));
+            input.value = '';
+            renderLists();
+            showToast('آیتم کتاب اضافه شد ✨');
+        }
+
+        function addCarItem() {
+            const input = document.getElementById('new-car-input');
+            if (!input.value.trim()) return;
+            carData.push({ id: Date.now(), text: "🚗 " + input.value.trim(), done: false });
+            localStorage.setItem('car_items', JSON.stringify(carData));
+            input.value = '';
+            renderLists();
+            showToast('آیتم ماشین اضافه شد 🚗');
+        }
+
+        renderLists();
+
+        // Burn Rage
+        function burnRage() {
+            const input = document.getElementById('rage-input');
+            if (!input.value.trim()) return;
+            input.style.transition = 'all 0.5s';
+            input.style.opacity = '0';
+            input.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                input.value = '';
+                input.style.opacity = '1';
+                input.style.transform = 'scale(1)';
+                showToast('💥 خشم امروزت خاکستر شد و از روحت بیرون رفت!');
+            }, 500);
+        }
+
+        // Modals
+        function openPanicModal() { document.getElementById('panic-modal').style.display = 'flex'; }
+        function closePanicModal() { document.getElementById('panic-modal').style.display = 'none'; }
+        function openPwaModal() { document.getElementById('pwa-modal').style.display = 'flex'; }
+        function closePwaModal() { document.getElementById('pwa-modal').style.display = 'none'; }
+    </script>
+</body>
+</html>
