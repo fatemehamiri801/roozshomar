@@ -458,6 +458,18 @@
         .toast.show {
             transform: translateX(-50%) translateY(0);
         }
+    .hdate{font-size:.8rem;color:var(--blue-dark);margin-top:4px;font-weight:700}
+        .big .time-box:not(:first-child){display:none}.big .countdown-grid{grid-template-columns:1fr}.big .time-value{font-size:3.2rem}
+        .tbtn{background:none;border:1px solid var(--blue-soft);border-radius:8px;font-size:.7rem;color:var(--blue-dark);padding:2px 8px;margin-right:auto;cursor:pointer}
+        .cal{display:flex;flex-wrap:wrap;gap:3px}.cd{width:20px;height:20px;border-radius:5px;background:var(--blue-soft);font-size:.55rem;display:flex;align-items:center;justify-content:center;color:var(--text-muted)}
+        .cd.p{background:#e2e8f0;text-decoration:line-through;opacity:.7}.cd.t{background:var(--pink-dark);color:#fff;font-weight:bold}.mh{width:22px;height:22px;border-radius:6px;background:#e2e8f0}
+        .wb{display:flex;align-items:center;gap:6px;font-size:.75rem;margin-top:5px}.wb i{display:block;height:8px;border-radius:4px;background:var(--pink-main)}
+        .inp{width:100%;background:#fff;border:1.5px solid var(--blue-soft);border-radius:10px;padding:8px 12px;font-size:.82rem;outline:none;margin-top:6px}
+        .breath{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--pink-main),var(--blue-main));margin:14px auto;animation:br 12s infinite ease-in-out;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem}
+        @keyframes br{0%,100%{transform:scale(.7)}33%,66%{transform:scale(1.25)}}
+        .rw{position:relative}.burning{animation:bn 1s forwards}.pt{position:absolute;bottom:10px;font-size:1.1rem;pointer-events:none;animation:up 1.4s forwards}
+        @keyframes bn{40%{background:#fed7aa;filter:sepia(1) saturate(4)}100%{opacity:0;transform:scale(.85);filter:blur(4px) grayscale(1)}}
+        @keyframes up{to{transform:translateY(-90px);opacity:0}}
     </style>
 </head>
 <body>
@@ -468,12 +480,12 @@
         <!-- Header -->
         <div class="header">
             <h1>🌸 روزشمار آزادی و پناهگاه روانی 🩵</h1>
-            <p>هدف: خروج پرقدرت در ۱ تیر ۱۴۰۶ (پس از واریز حقوق خرداد)</p>
+            <p>هدف: اعلام خداحافظی در ۲ خرداد ۱۴۰۶ (و خروج پس از واریز حقوق خرداد)</p><div class="hdate" id="jtoday"></div>
         </div>
 
         <!-- Countdown Card -->
         <div class="card">
-            <div class="card-title">⏳ زمان باقی‌مانده تا اعلام خداحافظی</div>
+            <div class="card-title">⏳ زمان باقی‌مانده تا اعلام خداحافظی<button class="tbtn" id="big-btn" onclick="toggleBig()">فقط روز</button></div>
             <div class="countdown-grid">
                 <div class="time-box">
                     <div class="time-value" id="days">-</div>
@@ -498,6 +510,8 @@
             <div class="progress-text" id="progress-text">در حال محاسبه مسیر...</div>
         </div>
 
+        <div class="card"><div class="card-title">📅 تقویم عبور</div><div class="cal" id="cal"></div></div>
+
         <!-- Quotes Card -->
         <div class="card">
             <div class="card-title">💡 دوز انگیزه امروز</div>
@@ -512,10 +526,10 @@
             <div class="card-title">🗓️ ثبت دوام امروز (Check-in)</div>
             <p style="font-size: 0.78rem; color: var(--text-muted);">حس امروزت چطور بود؟ یک روز دیگر خط خورد!</p>
             <div class="mood-selector">
-                <button class="mood-btn" onclick="logMood('😐', 'بی‌تفاوت تاکتیکی')">😐<span>بی‌تفاوت</span></button>
-                <button class="mood-btn" onclick="logMood('😤', 'کلافه')">😤<span>کلافه</span></button>
-                <button class="mood-btn" onclick="logMood('😮‍💨', 'خسته')">😮‍💨<span>خسته</span></button>
-                <button class="mood-btn" onclick="logMood('🥳', 'پرقدرت')">🥳<span>پرقدرت</span></button>
+                <button class="mood-btn" onclick="logMood(0)">😐<span>بی‌تفاوت</span></button>
+                <button class="mood-btn" onclick="logMood(1)">😤<span>کلافه</span></button>
+                <button class="mood-btn" onclick="logMood(2)">😮‍💨<span>خسته</span></button>
+                <button class="mood-btn" onclick="logMood(3)">🥳<span>پرقدرت</span></button>
             </div>
             <div class="streak-counter" id="streak-display">🔥 روزهای متوالی دوام‌آورده: ۰ روز</div>
         </div>
@@ -609,26 +623,30 @@
                     <div class="timeline-badge">🏆</div>
                     <div class="timeline-content">
                         <h4>خرداد/تیر: حقوق، سنوات و خداحافظی 💸</h4>
-                        <p>واریز حقوق خرداد + ۱ تیر اعلام استعفا و تسویه!</p>
+                        <p>۲ خرداد اعلام استعفا؛ بعد واریز حقوق خرداد و تسویه!</p>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="card"><div class="card-title">📊 تاریخچه حس‌ها</div><div class="cal" id="mh"></div><div class="progress-text">خاکستری بی‌تفاوت · قرمز کلافه · زرد خسته · سبز پرقدرت</div><div id="wk"></div><div class="progress-text" id="hard"></div></div>
+        <div class="card"><div class="card-title">🏅 دفتر برد‌ها</div><div class="item-list" id="wins"></div><div class="add-input-group"><input id="win-in" placeholder="امروز چه چیزی خوب پیش رفت؟"><button class="add-btn" onclick="saveWin()">ثبت</button></div></div>
+        <div class="card"><div class="card-title">🌿 کار کوچک امروز</div><div class="list-row" id="sc"></div></div>
+
         <!-- Mindset Shields -->
         <div class="card">
             <div class="card-title">🛡️ سپرهای بقا و قوانین روانی</div>
-            <div class="shield-rule">🛡️ **سرمایه‌گذاری عاطفی صفر:** شرکت فقط دستگاه خودپرداز است؛ هیچ حرص یا دلسوزی اضافه‌ای برای کار نداشته باش.</div>
-            <div class="shield-rule">🧱 **تکنیک دیوار سنگی:** در برابر سوءاستفاده‌ها، خونسرد، بی‌تفاوت و کاملاً حرفه‌ای عمل کن.</div>
-            <div class="shield-rule">📝 **ذخیره انرژی برای خلق:** تمام انرژی روحی‌ات را برای نوشتن رمان‌ها و زندگی شخصی‌ات حفظ کن.</div>
-            <div class="shield-rule">🏆 **تمرکز روی تیرماه:** اول واریز کامل حقوق خرداد، بعد خداحافظی شیرین.</div>
+            <div class="shield-rule">🛡️ <strong>سرمایه‌گذاری عاطفی صفر:</strong> شرکت فقط دستگاه خودپرداز است؛ هیچ حرص یا دلسوزی اضافه‌ای برای کار نداشته باش.</div>
+            <div class="shield-rule">🧱 <strong>تکنیک دیوار سنگی:</strong> در برابر سوءاستفاده‌ها، خونسرد، بی‌تفاوت و کاملاً حرفه‌ای عمل کن.</div>
+            <div class="shield-rule">📝 <strong>ذخیره انرژی برای خلق:</strong> تمام انرژی روحی‌ات را برای نوشتن رمان‌ها و زندگی شخصی‌ات حفظ کن.</div>
+            <div class="shield-rule">🏆 <strong>تمرکز روی خرداد:</strong> اول واریز کامل حقوق خرداد، بعد خداحافظی شیرین.</div>
         </div>
 
         <!-- Rage Burner -->
         <div class="card">
             <div class="card-title">🔥 مخزن انهدام خشم روزانه</div>
-            <textarea id="rage-input" placeholder="عصبانیت امروزت چیه؟ بنویس و متلاشی‌اش کن..."></textarea>
-            <button class="burn-btn" onclick="burnRage()">💥 سوزاندن و پاک‌سازی خشم</button>
+            <div class="rw"><textarea id="rage-input" placeholder="عصبانیت امروزت چیه؟ بنویس و متلاشی‌اش کن..."></textarea></div>
+            <button class="burn-btn" onclick="burnRage()">💥 سوزاندن و پاک‌سازی خشم</button><div class="progress-text" id="burn-n"></div>
         </div>
     </div>
 
@@ -639,15 +657,11 @@
     </div>
 
     <!-- Panic Modal -->
-    <div class="modal-overlay" id="panic-modal">
-        <div class="modal-content">
-            <div class="modal-title">🧘‍♀️ نفس عميق بکش؛ تو کنترل را داری</div>
-            <div class="modal-text">
-                «این حرص خوردن دقیقاً همان چیزی است که نباید انرژی‌ات را پایش بسوزانی. شرکت فقط یک دستگاه خودپرداز است. پاسخشان را با بی‌تفاوتی کاملاً سرد بده. حقوق و سنوات خرداد ارزش این خونسردی را دارد.»
-            </div>
-            <button class="close-modal-btn" onclick="closePanicModal()">متوجه شدم، آرومم ✨</button>
-        </div>
-    </div>
+    <div class="modal-overlay" id="panic-modal"><div class="modal-content" style="max-height:88vh;overflow:auto">
+        <div class="modal-title">🧘‍♀️ نفس بکش؛ تو کنترل را داری</div>
+        <div class="breath" id="br">دم</div>
+        <button class="close-modal-btn" onclick="closePanicModal()">آرومم ✨</button>
+    </div></div>
 
     <!-- PWA Install Modal -->
     <div class="modal-overlay" id="pwa-modal">
@@ -666,8 +680,8 @@
     </div>
 
     <script>
-        // Target: 2027-06-22 (1 Tir 1406) | Start: 2026-10-24 (2 Aban 1405)
-        const targetDate = new Date('2027-06-22T00:00:00').getTime();
+        // Target: 2027-05-23 (2 Khordad 1406) | Start: 2026-10-24 (2 Aban 1405)
+        const targetDate = new Date('2027-05-23T00:00:00').getTime();
         const startDate = new Date('2026-10-24T00:00:00').getTime();
 
         function showToast(msg) {
@@ -688,7 +702,7 @@
                 document.getElementById('hours').innerText = "0";
                 document.getElementById('minutes').innerText = "0";
                 document.getElementById('seconds').innerText = "0";
-                document.getElementById('progress-text').innerText = "🎉 حقوق واریز شد؛ وقت خداحافظی است!";
+                document.getElementById('progress-text').innerText = "🎉 وقتش رسید؛ خداحافظی را اعلام کن!";
                 return;
             }
 
@@ -718,9 +732,15 @@
             "«این روزها ابدی نیستند. تو برای هدفی بزرگتر اینجا هستی و هر روز یک قدم به خروج سودآور نزدیک‌تر می‌شوی.»",
             "«سرمایه‌گذاری عاطفی در این محیط صفر! تمام انرژی‌ات را برای پروژه‌ها، کتاب‌ها و زندگی شخصی‌ات نگه دار.»",
             "«حرف‌ها و رفتار دیگران را به دل نگیر؛ تو فقط یک مسافر مدت‌داری که داری منابعت را جمع می‌کنی.»",
-            "«هر روزی که پایان می‌یابد، یک روز کمتر از سوءاستفاده‌های آنهاست. ۱ تیر روز خداحافظی کامل است.»",
+            "«هر روزی که پایان می‌یابد، یک روز کمتر از سوءاستفاده‌های آنهاست. ۲ خرداد روز اعلام خداحافظی است.»",
             "«طاقت بیار! اهدافت (کتاب‌ها، کاپوت و سرامیک ماشین، کادوها) منتظرت هستند.»",
-            "«بهترین انتقام، موفقیت و خروج با دستِ پر بعد از دریافت آخرین حقوق است.»"
+            "«بهترین انتقام، موفقیت و خروج با دستِ پر بعد از دریافت آخرین حقوق است.»",
+            "«لازم نیست همه‌چیز را امروز حل کنی؛ فقط امروز را رد کن.»",
+            "«این شغل فصلی از زندگی توست، نه کل داستانش.»",
+            "«آرامش تو از هر پیروزی کوچک در دعواهای محل کار باارزش‌تر است.»",
+            "«تو داری یک تصمیم هوشمندانه را با صبر اجرا می‌کنی.»",
+            "«هر روز که می‌گذرد، به آزادی‌ات نزدیک‌تری؛ امروز را فقط تا شب دوام بیار.»",
+            "«کسی که برنامه خروج دارد از قفس نمی‌ترسد؛ از کلیدش خبر دارد.»"
         ];
 
         let quoteIndex = 0;
@@ -730,15 +750,19 @@
         }
 
         // Mood & Streak
-        let streak = parseInt(localStorage.getItem('user_streak') || '0');
-        document.getElementById('streak-display').innerText = `🔥 روزهای متوالی دوام‌آورده: ${streak} روز`;
-
-        function logMood(emoji, label) {
-            streak++;
-            localStorage.setItem('user_streak', streak);
-            document.getElementById('streak-display').innerText = `🔥 روزهای متوالی دوام‌آورده: ${streak} روز`;
-            showToast(`حس امروز (${emoji} ${label}) ثبت شد. یک روز دیگر خط خورد! 💪`);
-        }
+        const $=id=>document.getElementById(id);
+        const ld=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v===null?d:v}catch(e){return d}};
+        const sv=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+        const dk=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+        const jf=(o,d=new Date())=>new Intl.DateTimeFormat('fa-IR-u-ca-persian',o).format(d);
+        const jn=(o,d=new Date())=>+new Intl.DateTimeFormat('en-u-ca-persian',o).format(d);
+        const ME=['😐','😤','😮‍💨','🥳'],ML=['بی‌تفاوت','کلافه','خسته','پرقدرت'];
+        function calcStreak(){const ks=Object.keys(ld('mood_log',{})).sort().reverse(),D=864e5;let prev=new Date(dk(new Date())+'T00:00:00').getTime(),n=0;
+            for(const k of ks){const t=new Date(k+'T00:00:00').getTime();if(prev-t>2*D)break;n++;prev=t}return n}
+        function showStreak(){$('streak-display').innerText=`🔥 روزهای متوالی دوام‌آورده: ${calcStreak()} روز (یک روز جاماندن اشکالی ندارد)`}
+        showStreak();
+        function logMood(i){const m=ld('mood_log',{}),k=dk(new Date()),again=k in m;m[k]=i;sv('mood_log',m);showStreak();renderHist();
+            showToast(again?'حس امروز به‌روز شد ✏️':`حس امروز (${ME[i]} ${ML[i]}) ثبت شد. یک روز دیگر خط خورد! 💪`)}
 
         // Lists Management
         let defaultFinance = [
@@ -775,19 +799,14 @@
             renderGeneric('car-list', carData, 'car_items');
         }
 
-        function renderGeneric(containerId, dataArray, storageKey) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            dataArray.forEach((item, index) => {
-                const row = document.createElement('div');
-                row.className = `list-row ${item.done ? 'done' : ''}`;
-                row.innerHTML = `
-                    <span>${item.text}</span>
-                    <button class="check-btn" onclick="toggleItem('${storageKey}', ${index})">${item.done ? '✓ انجام شد' : 'علامت زدن'}</button>
-                `;
-                container.appendChild(row);
-            });
-        }
+        function renderGeneric(id,arr,key){const c=$(id);c.innerHTML='';arr.forEach((it,i)=>{const r=document.createElement('div');r.className='list-row'+(it.done?' done':'');
+                const t=document.createElement('span');t.textContent=it.text;t.style.flex='1';const g=document.createElement('div');g.style.cssText='display:flex;gap:4px';
+                [[it.done?'✓ انجام شد':'علامت زدن',()=>toggleItem(key,i)],['✏️',()=>editItem(key,i)],['🗑️',()=>delItem(key,i)]].forEach(([l,f])=>{const b=document.createElement('button');b.className='check-btn';b.textContent=l;b.onclick=f;g.appendChild(b)});
+                r.append(t,g);c.appendChild(r)})}
+        const LS={fin_items:()=>financeData,book_items:()=>bookData,car_items:()=>carData};
+        function saveAll(){localStorage.setItem('fin_items',JSON.stringify(financeData));localStorage.setItem('book_items',JSON.stringify(bookData));localStorage.setItem('car_items',JSON.stringify(carData));renderLists()}
+        function editItem(k,i){const a=LS[k](),v=prompt('ویرایش آیتم:',a[i].text);if(v&&v.trim()){a[i].text=v.trim();saveAll()}}
+        function delItem(k,i){if(confirm('این آیتم حذف شود؟')){LS[k]().splice(i,1);saveAll()}}
 
         function toggleItem(storageKey, index) {
             if (storageKey === 'fin_items') financeData[index].done = !financeData[index].done;
@@ -822,26 +841,47 @@
 
         renderLists();
 
-        // Burn Rage
-        function burnRage() {
-            const input = document.getElementById('rage-input');
-            if (!input.value.trim()) return;
-            input.style.transition = 'all 0.5s';
-            input.style.opacity = '0';
-            input.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                input.value = '';
-                input.style.opacity = '1';
-                input.style.transform = 'scale(1)';
-                showToast('💥 خشم امروزت خاکستر شد و از روحت بیرون رفت!');
-            }, 500);
-        }
-
+        
         // Modals
         function openPanicModal() { document.getElementById('panic-modal').style.display = 'flex'; }
         function closePanicModal() { document.getElementById('panic-modal').style.display = 'none'; }
         function openPwaModal() { document.getElementById('pwa-modal').style.display = 'flex'; }
         function closePwaModal() { document.getElementById('pwa-modal').style.display = 'none'; }
+    
+        // ---- v2 additions ----
+        function toggleBig(){const c=$('days').closest('.card'),b=c.classList.toggle('big');localStorage.setItem('big',b?1:0);$('big-btn').textContent=b?'نمایش کامل':'فقط روز'}
+        if(localStorage.getItem('big')==='1')toggleBig();
+        function hiTL(){const m=jn({month:'numeric'}),i=m>=8?m-8:Math.min(m+4,7);document.querySelectorAll('.timeline-item').forEach((e,j)=>e.classList.toggle('active',j===i))}
+        function renderCal(){const c=$('cal'),D=864e5,T=new Date(dk(new Date())+'T00:00:00').getTime(),n=Math.round((targetDate-startDate)/D);c.innerHTML='';
+            for(let k=0;k<=n;k++){const d=new Date(startDate+k*D),dn=jn({day:'numeric'},d);
+                if(k==0||dn==1){const l=document.createElement('div');l.style.cssText='width:100%;font-size:.7rem;font-weight:bold;color:var(--pink-dark);margin-top:4px';l.textContent=jf({month:'long'},d);c.appendChild(l)}
+                const e=document.createElement('div'),t=new Date(dk(d)+'T00:00:00').getTime();e.className='cd'+(t<T?' p':t==T?' t':'');e.textContent=jf({day:'numeric'},d);c.appendChild(e)}}
+        const MC=['#94a3b8','#f43f5e','#fbbf24','#34d399'],WN=['یک‌شنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
+        function renderHist(){const m=ld('mood_log',{}),h=$('mh'),tot=Array(7).fill(0),hd=Array(7).fill(0);h.innerHTML='';
+            for(let i=27;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=dk(d),e=document.createElement('div');e.className='mh';if(k in m)e.style.background=MC[m[k]];h.appendChild(e)}
+            for(const k in m){const w=new Date(k+'T00:00:00').getDay();tot[w]++;if(m[k]==1||m[k]==2)hd[w]++}
+            const w=$('wk');w.innerHTML='';let best=-1,bp=0;
+            [6,0,1,2,3,4,5].forEach(d=>{const p=tot[d]?Math.round(hd[d]/tot[d]*100):0;if(tot[d]>=2&&p>bp){bp=p;best=d}
+                w.insertAdjacentHTML('beforeend',`<div class="wb"><span style="width:60px">${WN[d]}</span><div style="flex:1;background:#f1f5f9;border-radius:4px"><i style="width:${p}%"></i></div><span>${p}٪</span></div>`)});
+            $('hard').textContent=best<0?'نوارها: درصد روزهای کلافه/خسته در هر روز هفته':'سخت‌ترین روز تو: '+WN[best]}
+        function renderWins(){const w=ld('wins',{}),l=$('wins'),ks=Object.keys(w).sort().reverse();l.innerHTML='';
+            ks.slice(0,5).forEach(k=>{const r=document.createElement('div'),s=document.createElement('span');r.className='list-row';s.textContent='🏅 '+jf({month:'long',day:'numeric'},new Date(k+'T00:00:00'))+': '+w[k];r.appendChild(s);l.appendChild(r)});
+            if(ks.length){const c=document.createElement('div');c.className='progress-text';c.textContent=`جمعاً ${ks.length} برد ثبت کرده‌ای ✨`;l.appendChild(c)}}
+        function saveWin(){const v=$('win-in').value.trim();if(!v)return;const w=ld('wins',{});w[dk(new Date())]=v;sv('wins',w);$('win-in').value='';showToast('برد امروز ثبت شد 🏅');renderWins()}
+        const SC=['۱۰ دقیقه پیاده‌روی 🚶‍♀️','دو لیوان آب بیشتر بنوش 💧','امشب ۳۰ دقیقه زودتر بخواب 😴','۵ دقیقه کشش و تنفس عمیق 🧘‍♀️','یک آهنگ دلخواه گوش بده 🎧','به یک نفر پیام محبت‌آمیز بده 💬','یک صفحه از کتابت را بخوان 📖','چند دقیقه نور آفتاب بگیر ☀️','۱۰ دقیقه بدون گوشی 📵','چند خط برای رمانت بنویس ✍️','یک چای خوب بنوش ☕','از خودت یک تعریف کن 🌸'];
+        function renderSC(){const d=new Date(),k=dk(d),dn=ld('sc_done',{}),r=$('sc');r.innerHTML='';const s=document.createElement('span'),b=document.createElement('button');
+            s.textContent=SC[Math.floor(d/864e5)%SC.length];b.className='check-btn';b.textContent=dn[k]?'✓ انجام شد':'انجام دادم';r.classList.toggle('done',!!dn[k]);
+            b.onclick=()=>{dn[k]=!dn[k];sv('sc_done',dn);renderSC();if(dn[k])showToast('آفرین، به خودت رسیدی 🌿')};r.append(s,b)}
+        function bn(){$('burn-n').textContent='🔥 تا حالا '+(+localStorage.getItem('burn_n')||0)+' خشم سوزانده شد'}
+        function burnRage(){const i=$('rage-input');if(!i.value.trim())return;i.classList.add('burning');const w=i.parentNode;
+            for(let k=0;k<16;k++){const p=document.createElement('span');p.className='pt';p.textContent=k%2?'🔥':'●';if(k%2==0)p.style.color='#64748b';p.style.left=Math.random()*90+'%';p.style.animationDelay=Math.random()*.5+'s';w.appendChild(p);setTimeout(()=>p.remove(),2000)}
+            localStorage.setItem('burn_n',(+localStorage.getItem('burn_n')||0)+1);
+            setTimeout(()=>{i.value='';i.classList.remove('burning');bn();showToast('💥 خشم امروزت خاکستر شد!')},1000)}
+        let bt=0;
+        function openPanicModal(){$('panic-modal').style.display='flex';bt=Date.now()}
+        setInterval(()=>{if($('panic-modal').style.display!=='flex')return;const t=Math.floor((Date.now()-bt)/1000)%12;$('br').textContent=t<4?'دم':t<8?'نگه دار':'بازدم'},300);
+        function initAll(){$('jtoday').textContent=jf({weekday:'long',year:'numeric',month:'long',day:'numeric'});hiTL();renderCal();renderHist();renderWins();renderSC();bn();showStreak()}
+        initAll();setInterval(initAll,36e5);
     </script>
 </body>
 </html>
